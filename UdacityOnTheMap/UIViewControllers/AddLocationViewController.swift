@@ -49,17 +49,18 @@ class AddLocationViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: Find location action
     @IBAction func findLocation(sender: UIButton) {
-        self.setLoading(true)
+        setLoading(true)
         activityLoadingIndicator.startAnimating()
-        let newLocation = locationTextField.text
         
-        guard let url = URL(string: self.websiteTextField.text!), UIApplication.shared.canOpenURL(url) else {
-            self.showAlert(message: "Please include 'http://' in your link.", title: "Invalid URL")
-            setLoading(false)
+        guard let newLocation = locationTextField.text,
+              let url = URL(string: websiteTextField.text ?? ""),
+              UIApplication.shared.canOpenURL(url) else {
+                showAlert(message: "Please include 'http://' in your link.", title: "Invalid URL")
+                setLoading(false)
             return
         }
-
-        geocodePosition(newLocation: newLocation ?? "")
+        
+        geocodePosition(newLocation: newLocation)
         activityLoadingIndicator.stopAnimating()
     }
     
